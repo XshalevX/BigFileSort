@@ -1,6 +1,14 @@
 #pragma once
+#include <iostream>
+#include <windows.h>
+#include <fileapi.h>
+#include <vector>
+#include <format>
 
-class fileSort
+#include "HelperUtils.h"
+
+
+class FileSort
 {
 private:
 	unsigned int _maxFileSizeBytes;
@@ -9,8 +17,9 @@ private:
 
 
 public:
-	fileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
-		
+	FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
+	
+	void Sort(const std::string& inFilePath, const std::string& outFilePath);
 
 
 
