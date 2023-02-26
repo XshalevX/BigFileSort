@@ -15,7 +15,8 @@ private:
 	unsigned int _numberOfLinesPerSegment;
 	unsigned int _lineSizeBytes;
 
-
+	void sortChunks(std::vector<std::string> chunks);
+	void writeNewChunk(const std::unique_ptr<char>& readBuffer, const int& chunkNumber);
 public:
 	FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
 	

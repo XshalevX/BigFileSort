@@ -9,10 +9,11 @@ std::shared_ptr<wchar_t> HelperUtils::getWindowsPstr(const std::string& original
 
 
 
-HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite)
+HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite, int openOption)
 {
     if (readOrWrite == READ)
     {
+        openOption = openOption ? openOption : OPEN_EXISTING;
         auto readHandle = CreateFile(getWindowsPstr(filePath).get(),
             GENERIC_READ,
             FILE_SHARE_READ,
@@ -28,6 +29,8 @@ HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite)
     }
     else if (readOrWrite == WRITE)
     {
+        openOption = openOption ? openOption : CREATE_ALWAYS;
+
         auto writeHandle = CreateFile(getWindowsPstr(filePath).get(),
             GENERIC_WRITE,
             FILE_SHARE_READ,
@@ -46,3 +49,32 @@ HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite)
         throw InvaildInputExeption();
     }
 }
+
+std::vector<std::string> HelperUtils::createChunksName(int numberOfChunks)
+{
+    std::vector<std::string> chunksFilePath;
+    for (int i = 1; i < numberOfChunks; i++)
+    {
+        chunksFilePath.push_back(std::format("chunk{}.txt", i));
+    }
+    return chunksFilePath;
+}
+std::vector<std::string> split(const char* str, const int size, const char del)
+{
+    std::string temp = "";
+    std::vector<std::string> lines = std::vector<std::string>();
+    for (int i = 0; i < size; i++)
+    {
+        if (str[i] == del)
+        {
+            lines.push_back(temp + del);
+            temp = "";
+        }
+        else
+        {
+            temp += str[i];
+        }
+    }
+    return lines;
+}
+
