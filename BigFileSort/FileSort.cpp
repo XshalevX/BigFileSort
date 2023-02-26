@@ -23,6 +23,7 @@ void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePat
     if (GetFileSize(hInfile, NULL) > _maxFileSizeBytes)
     {
         std::cerr << "File to big" << std::endl;
+        CloseHandle(hInfile);
         return;
     }
     DWORD numberOfBytesRead = 0;
@@ -33,6 +34,8 @@ void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePat
         if (!ReadFile(hInfile, static_cast<char*>(readBuffer.get()), _numberOfLinesPerSegment * _lineSizeBytes, &numberOfBytesRead, NULL))
         {
             std::cerr << "Error in ReadFile" << std::endl;
+            CloseHandle(hInfile);
+
             return;
         }
         if (numberOfBytesRead == 0)
@@ -42,11 +45,13 @@ void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePat
         if (numberOfBytesRead != _numberOfLinesPerSegment * _lineSizeBytes)
         {
             std::cerr << "File not in currect size!" << std::endl;
+            CloseHandle(hInfile);
             return;
         }
         if (readBuffer.get()[_numberOfLinesPerSegment * _lineSizeBytes - 1] != '\n')
         {
             std::cerr << "Too many bytes per line\n";
+            CloseHandle(hInfile);
             return;
         }
         
@@ -65,6 +70,8 @@ void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePat
     CloseHandle(hInfile);
     
     sortChunks(HelperUtils::createChunksName(chunkCounter));
+    auto queue = getFirstPQueue(HelperUtils::createChunksName(chunkCounter));
+    queue.top();
     
 
 }
@@ -90,9 +97,7 @@ void FileSort::sortChunks(std::vector<std::string> chunks)
             combainedString += line;
         }
         WriteFile(chunkWriteHandle, combainedString.c_str(), _numberOfLinesPerSegment * _lineSizeBytes, NULL, NULL);
-
-
-
+        CloseHandle(chunkWriteHandle);
     }
 
 }
@@ -112,4 +117,44 @@ void FileSort::writeNewChunk(const std::unique_ptr<char>& readBuffer, const int&
         return;
     }
     CloseHandle(newChunkFile);
+}
+
+priority_queue FileSort::getFirstPQueue(std::vector<std::string> chunksName)
+{
+    std::vector<std::string> preSortedValues;
+    for (auto chunkFilePath : chunksName)
+    {
+        auto chunkReadHandle = HelperUtils::openFile(chunkFilePath, 'r');
+        std::unique_ptr<char> readBuffer(new char[_lineSizeBytes + 1 ]);
+        if (!ReadFile(chunkReadHandle, static_cast<char*>(readBuffer.get()), _lineSizeBytes, NULL, NULL))
+        {
+            throw "Bla";
+        }
+        readBuffer.get()[_lineSizeBytes] = '\0';
+        preSortedValues.push_back(std::string(readBuffer.get()));
+        CloseHandle(chunkReadHandle);
+        removeFirstLine(chunkFilePath);
+    }
+    priority_queue sortedQueue(std::begin(preSortedValues), std::end(preSortedValues));
+    return sortedQueue;
+}
+
+void FileSort::removeFirstLine(std::string filePath)
+{
+    auto chunkAppendHandle = HelperUtils::openFile(filePath, 'r');
+    SetFilePointer(chunkAppendHandle, _lineSizeBytes, NULL, FILE_BEGIN);
+    auto newFileHanle = HelperUtils::openFile("temp.txt", 'w');
+    std::unique_ptr<char> readBuffer(new char[ _lineSizeBytes + 1]);
+    DWORD numberOfReadBytes = 0;
+    while (ReadFile(chunkAppendHandle, readBuffer.get(), _lineSizeBytes, &numberOfReadBytes, NULL))
+    {
+        if (numberOfReadBytes == 0)
+            break;
+        readBuffer.get()[_lineSizeBytes] = '\0';
+        WriteFile(newFileHanle, readBuffer.get(), numberOfReadBytes, NULL, NULL);
+    }
+    CloseHandle(chunkAppendHandle);
+    CloseHandle(newFileHanle);
+    DeleteFileA(filePath.c_str());
+    rename("temp.txt", filePath.c_str());
 }

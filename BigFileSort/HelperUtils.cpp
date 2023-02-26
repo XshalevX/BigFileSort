@@ -44,6 +44,23 @@ HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite, int 
         }
         return writeHandle;
     }
+    else if (readOrWrite == APPEND)
+    {
+        openOption = openOption ? openOption : CREATE_ALWAYS;
+
+        auto append = CreateFile(getWindowsPstr(filePath).get(),
+            GENERIC_WRITE,
+            FILE_SHARE_WRITE,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL);
+        if (append == INVALID_HANDLE_VALUE)
+        {
+            throw InvaildHandleException();
+        }
+        return append;
+    }
     else
     {
         throw InvaildInputExeption();

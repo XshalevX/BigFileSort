@@ -9,6 +9,7 @@
 
 #define READ 'r'
 #define WRITE 'w'
+#define APPEND 'a'
 
 class HelperUtils
 {
