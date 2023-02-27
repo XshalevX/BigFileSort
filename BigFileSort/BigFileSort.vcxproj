@@ -138,6 +138,7 @@
     <ClCompile Include="InvaildInputExeption.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chunk.h" />
     <ClInclude Include="FileSort.h" />
     <ClInclude Include="HelperUtils.h" />
     <ClInclude Include="InvaildHandleException.h" />

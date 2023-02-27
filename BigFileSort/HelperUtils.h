@@ -18,8 +18,6 @@ public:
 	static HANDLE openFile(const std::string& filePath, char readOrWrite, int openOption = 0);
 
 	static std::vector<std::string> createChunksName(int numberOfChunks);
-	//static std::vector<std::string> split(const char* str, const int size, const char del);
-
 };
 
 std::vector<std::string> split(const char* str, const int size, const char del);
