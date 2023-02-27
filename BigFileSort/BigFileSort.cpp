@@ -3,10 +3,10 @@
 
 int main()
 {
-    FileSort fs(30, 2, 5);
+    auto x = FileSort(500*12, 10, 12);
     try
     {
-        fs.Sort("input.txt", "output.txt");
+        x.Sort("input.txt", "output.txt");
     }
     catch(std::exception& err)
     {

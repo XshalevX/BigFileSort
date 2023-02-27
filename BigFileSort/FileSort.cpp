@@ -2,7 +2,7 @@
 
 
 
-FileSort::FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes):
+FileSort::FileSort(unsigned long maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes):
 	_maxFileSizeBytes(maxFileSizeBytes), _numberOfLinesPerSegment(numberOfLinesPerSegment), _lineSizeBytes(lineSizeBytes) {}
 
 void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePath) const
@@ -60,9 +60,7 @@ void FileSort::Sort(const std::string& inFilePath, const std::string& outFilePat
         
 
         chunkCounter++;
-        
-        std::cout << readBuffer << std::endl;
-        
+                
     }while(hInfile && numberOfBytesRead != 0);
 
     //delete it
@@ -146,6 +144,7 @@ priority_queue FileSort::getFirstPQueue(std::vector<std::string>& chunks) const
         if (!removeFirstLine(*chunk))
         {
             chunks.erase(chunk);
+            std::cout << *chunk << " is done.\n";
         }
     }
     priority_queue sortedQueue(std::begin(preSortedValues), std::end(preSortedValues));
@@ -183,6 +182,7 @@ bool FileSort::removeFirstLine(std::string filePath) const
     }
     if (GetFileSize(chunkReadHandle,NULL) == 0)
     {
+        CloseHandle(chunkReadHandle);
         DeleteFileA(filePath.c_str());
         return false;
     }

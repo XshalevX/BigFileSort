@@ -6,6 +6,8 @@
 #include <format>
 #include <queue>
 #include <map>
+#include <filesystem>
+
 
 #include "HelperUtils.h"
 
@@ -28,7 +30,7 @@ private:
 
 public:
 	
-	FileSort(int maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
+	FileSort(unsigned long maxFileSizeBytes, int numberOfLinesPerSegment, int lineSizeBytes);
 	void Sort(const std::string& inFilePath, const std::string& outFilePath) const;
 
 
