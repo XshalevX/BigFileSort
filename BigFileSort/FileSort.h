@@ -10,6 +10,8 @@
 
 
 #include "HelperUtils.h"
+#include "ReadException.h"
+#include "WriteException.h"
 
 using wordData = std::pair <std::string, std::string>;
 
@@ -23,7 +25,7 @@ private:
 	unsigned int _lineSizeBytes;
 
 	void sortChunks(std::vector<std::string>& chunks) const;
-	void writeNewChunk(const std::unique_ptr<char>& readBuffer, const int& chunkNumber) const;
+	void writeNewChunk(const std::unique_ptr<char>& readBuffer, std::string chunkPath) const;
 	priority_queue getFirstPQueue(std::vector<std::string>& chunks) const;
 	bool removeFirstLine(std::string filePath) const;
 	wordData getFirstLine(std::string chunk, std::vector<std::string>& chunks) const;

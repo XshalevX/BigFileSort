@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Exceptions">
+      <UniqueIdentifier>{e9557670-06c7-4045-b718-508dede6acad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exceptions">
+      <UniqueIdentifier>{cf1c1556-b019-4402-9d6d-77cafb1e7a63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigFileSort.cpp">
@@ -24,11 +30,20 @@
     <ClCompile Include="HelperUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InvaildInputExeption.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="WriteException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="InvaildHandleException.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaildInputExeption.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadException.h">
+      <Filter>Header Files\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,11 +53,14 @@
     <ClInclude Include="HelperUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WriteException.h">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
     <ClInclude Include="InvaildInputExeption.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="InvaildHandleException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

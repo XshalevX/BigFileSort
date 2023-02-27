@@ -1,6 +1,12 @@
 #include "HelperUtils.h"
 
-std::shared_ptr<wchar_t> HelperUtils::getWindowsPstr(const std::string& originalStr)
+
+/// <summary>
+/// this function converts std::string into a type that is used in winapi
+/// </summary>
+/// <param name="originalStr"> string to convert</param>
+/// <returns> a pointer to the new type</returns>
+std::shared_ptr<wchar_t> getWindowsPstr(const std::string& originalStr)
 {
     std::shared_ptr<wchar_t> wtext(new wchar_t[20]);
     mbstowcs_s(NULL, wtext.get(), originalStr.size() + 1 , originalStr.c_str(), originalStr.size());
@@ -8,8 +14,14 @@ std::shared_ptr<wchar_t> HelperUtils::getWindowsPstr(const std::string& original
 }
 
 
-
-HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite, int openOption)
+/// <summary>
+/// Helper function to manage opeing file in a simpler way
+/// </summary>
+/// <param name="filePath">path to file to open</param>
+/// <param name="readOrWrite"> 'w' for write or 'r' read </param>
+/// <param name="openOption">another option that tells the function to open or create file</param>
+/// <returns>The handle to the new file that we opened</returns>
+HANDLE openFile(const std::string& filePath, char readOrWrite, int openOption)
 {
     if (readOrWrite == READ)
     {
@@ -67,15 +79,14 @@ HANDLE HelperUtils::openFile(const std::string& filePath, char readOrWrite, int 
     }
 }
 
-std::vector<std::string> HelperUtils::createChunksName(int numberOfChunks)
-{
-    std::vector<std::string> chunksFilePath;
-    for (int i = 1; i < numberOfChunks; i++)
-    {
-        chunksFilePath.push_back(std::format("chunk{}.txt", i));
-    }
-    return chunksFilePath;
-}
+
+/// <summary>
+/// basic split function that splits ny a delimiter
+/// </summary>
+/// <param name="str">c_string to split</param>
+/// <param name="size">the size of the c_string</param>
+/// <param name="del">the delimiter</param>
+/// <returns>a vector of the splited part</returns>
 std::vector<std::string> split(const char* str, const int size, const char del)
 {
     std::string temp = "";

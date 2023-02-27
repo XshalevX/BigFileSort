@@ -136,12 +136,16 @@
     <ClCompile Include="HelperUtils.cpp" />
     <ClCompile Include="InvaildHandleException.cpp" />
     <ClCompile Include="InvaildInputExeption.cpp" />
+    <ClCompile Include="ReadException.cpp" />
+    <ClCompile Include="ReadException.h" />
+    <ClCompile Include="WriteException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileSort.h" />
     <ClInclude Include="HelperUtils.h" />
     <ClInclude Include="InvaildHandleException.h" />
     <ClInclude Include="InvaildInputExeption.h" />
+    <ClInclude Include="WriteException.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

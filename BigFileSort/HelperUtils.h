@@ -11,13 +11,6 @@
 #define WRITE 'w'
 #define APPEND 'a'
 
-class HelperUtils
-{
-public:
-	static std::shared_ptr<wchar_t> getWindowsPstr(const std::string& originalStr);
-	static HANDLE openFile(const std::string& filePath, char readOrWrite, int openOption = 0);
-
-	static std::vector<std::string> createChunksName(int numberOfChunks);
-};
-
+std::shared_ptr<wchar_t> getWindowsPstr(const std::string& originalStr);
+HANDLE openFile(const std::string& filePath, char readOrWrite, int openOption = 0);
 std::vector<std::string> split(const char* str, const int size, const char del);
